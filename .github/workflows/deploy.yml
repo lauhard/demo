@@ -16,17 +16,29 @@ jobs:
 
       - name: Build
         run: npm run build
+      - name: SSH-Schlüssel einrichten
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/private_key
+          chmod 600 /tmp/private_key
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add /tmp/private_key
+          rm /tmp/private_key
 
-      - name: Action-SSH
-        uses: tiyee/action-ssh@v1.0.1
-        with:
-          host: alau.at
-          port: 22
-          username: andreas
-          privateKey: ${{ secrets.VPS_PRIVATE_KEY }}
-          command: |
-            cd /var/www/html
-            git pull
-            npm install
-            npm run build
-            pm2 restart all
+      - name: Host-Key zum known_hosts hinzufügen
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H alau.at >> ~/.ssh/known_hosts
+
+      - name: Gebaute Dateien auf Raspberry Pi übertragen
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          rsync -avz --delete ./build/ andreas@alau.at:/var/www/sveltekit/
+
+      - name: Docker Compose auf dem Raspberry Pi ausführen
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh andreas@alau.at 'cd ~/cloudflare && sudo docker compose --env-file=../cloudflare/cloudflare.env up -d --build'
