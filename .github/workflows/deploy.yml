@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy to Local Raspbi via cloudflare tunnel
 
 on:
   push:
@@ -20,9 +20,9 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           script: |
             cd /var/www/html
             git pull
