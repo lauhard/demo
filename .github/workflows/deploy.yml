@@ -18,12 +18,14 @@ jobs:
         run: npm run build
 
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        id: action-ssh
+        uses: tiyee/action-ssh@release
         with:
           host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.PORT }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
-          script: |
+          privateKey: ${{ secrets.VPS_PRIVATE_KEY }}
+          command: |
             cd /var/www/html
             git pull
             npm install
