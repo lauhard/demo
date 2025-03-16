@@ -17,9 +17,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy
-        id: action-ssh
-        uses: tiyee/action-ssh@release
+      - name: Action-SSH
+        uses: tiyee/action-ssh@v1.0.1
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.PORT }}
