@@ -25,7 +25,4 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
 
       - name: Test SSH Connection
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
-
-      - name: Run Remote Command
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "uptime"
+        run: ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
