@@ -16,29 +16,16 @@ jobs:
 
       - name: Build
         run: npm run build
-      - name: SSH-Schlüssel einrichten
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          echo "${{ secrets.VPS_PRIVATE_KEY }}" > /tmp/private_key
-          chmod 600 /tmp/private_key
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add /tmp/private_key
-          rm /tmp/private_key
-
-      - name: Host-Key zum known_hosts hinzufügen
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H alau.at >> ~/.ssh/known_hosts
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
-      - name: Gebaute Dateien auf Raspberry Pi übertragen
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          rsync -avz --delete ./build/ andreas@alau.at:/var/www/sveltekit/
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
 
-      - name: Docker Compose auf dem Raspberry Pi ausführen
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          ssh andreas@alau.at 'cd ~/cloudflare && sudo docker compose --env-file=../cloudflare/cloudflare.env up -d --build'
+      - name: Run Remote Command
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "uptime"
