@@ -21,7 +21,7 @@ jobs:
       - name: Setup Cloudflare WARP Action
         uses: oHTGo/setup-cloudflare-warp-action@v0.3.1
         with:
-          organization: your-organization
+          organization: lauhard
           auth_client_id: ${{ secrets.AUTH_CLIENT_ID }}
           auth_client_secret: ${{ secrets.AUTH_CLIENT_SECRET }}
 
