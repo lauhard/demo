@@ -18,7 +18,7 @@ jobs:
         run: npm run build
 
       #install cloudflare warp client
-      - name: Setup Cloudflare WARP Action
+      - name: Setup Cloudflare WARP Action!
         uses: Boostport/setup-cloudflare-warp@v1
         with:
           organization: lauhard
