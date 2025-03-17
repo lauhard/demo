@@ -17,21 +17,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      #install cloudflare warp client
-      - name: Setup Cloudflare Warp
-        uses: Boostport/setup-cloudflare-warp@v1.11.0
+      - name: Action-SSH
+        uses: tiyee/action-ssh@v1.0.1
         with:
-          organization: lauhard
-          auth_client_id: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_ID }}
-          auth_client_secret: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_SECRET }}
-
-      - name: Setup SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Test SSH Connection
-        run: ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
+          host: alau.at
+          port: 22
+          username: andreas
+          privateKey: ${{ secrets.VPS_PRIVATE_KEY }}
+          command: |
+            cd /var/www/html
+            git pull
+            npm install
+            npm run build
+            pm2 restart all
