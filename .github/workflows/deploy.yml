@@ -22,8 +22,8 @@ jobs:
         uses: oHTGo/setup-cloudflare-warp-action@v0.3.1
         with:
           organization: lauhard
-          auth_client_id: ${{ secrets.AUTH_CLIENT_ID }}
-          auth_client_secret: ${{ secrets.AUTH_CLIENT_SECRET }}
+          auth_client_id: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_ID }}
+          auth_client_secret: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_SECRET }}
 
       - name: Test SSH Connection
         run: ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
