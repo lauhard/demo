@@ -27,7 +27,9 @@ jobs:
 
       #check status of warp client
       - name: Check Cloudflare Warp Client Status
-        run: warp-cli status
+        run: |
+          sudo warp-cli --accept-tos register
+          warp-cli status
 
       #register warp client with github token
       - name: Register Cloudflare Warp Client
