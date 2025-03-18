@@ -35,7 +35,7 @@ jobs:
         run: |
           sudo warp-cli --accept-tos registration new lauhard
           sudo warp-cli --accept-tos registration show
-          sudo warp-cli --accept-tos connect
+          warp-cli --accept-tos connect
 
       - name: Setup SSH Key
         run: |
