@@ -28,15 +28,14 @@ jobs:
       #check status of warp client
       - name: Check Cloudflare Warp Client Status
         run: |
-          sudo warp-cli --accept-tos
-          warp-cli status
+          sudo warp-cli --accept-tos status
 
       #register warp client with github token
       - name: Register Cloudflare Warp Client
         run: |
-          warp-cli regstration new
-          warp-cli registration show
-          warp-cli connect
+          sudo warp-cli --accept-tos regstration new
+          sudo warp-cli --accept-tos registration show
+          sudo warp-cli --accept-tos connect
 
       - name: Setup SSH Key
         run: |
