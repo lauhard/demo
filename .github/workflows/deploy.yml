@@ -33,7 +33,7 @@ jobs:
       #register warp client with github token
       - name: Register Cloudflare Warp Client
         run: |
-          sudo warp-cli --accept-tos registration new
+          sudo warp-cli --accept-tos registration new lauhard
           sudo warp-cli --accept-tos registration show
           sudo warp-cli --accept-tos connect
 
