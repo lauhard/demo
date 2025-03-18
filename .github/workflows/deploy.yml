@@ -18,12 +18,31 @@ jobs:
         run: npm run build
 
       #install cloudflare warp client
-      - name: Setup Cloudflare WARP Action
-        uses: Boostport/setup-cloudflare-warp@v1
-        with:
-          organization: lauhard
-          auth_client_id: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_ID }}
-          auth_client_secret: ${{ secrets.CLOUDFLARE_AUTH_CLIENT_SECRET }}
+      - name: Install Cloudflare Warp Client
+        run: |
+          curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ focal main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+          sudo apt-get update
+          sudo apt-get update && sudo apt-get install cloudflare-warp
+
+      #check status of warp client
+      - name: Check Cloudflare Warp Client Status
+        run: warp-cli status
+
+      #register warp client with github token
+      - name: Register Cloudflare Warp Client
+        run: |
+          warp-cli regstration new
+          warp-cli registration show
+          warp-cli connect
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Test SSH Connection
         run: ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
