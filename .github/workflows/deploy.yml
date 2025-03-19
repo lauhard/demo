@@ -25,22 +25,23 @@ jobs:
           sudo apt-get update && sudo apt-get install -y --no-install-recommends cloudflare-warp
       #add mdm.xml file to warp client directory
       - name: Add mdm.xml file
-        env:
-          CLOUDFLARE_ID: ${{ secrets.CLOUDFLARE_SERVICE_TOKEN_ID }}
-          CLOUDFLARE_SECRET: ${{ secrets.CLOUDFLARE_SERVICE_TOKEN_SECRET }}
+
         run: |
-          echo "<dict>
-          <key>organisation</key>
-          <string>lauhard</string>
-          <key>auth_client_id</key>
-          <string>${CLOUDFLARE_ID}</string>
-          <key>auth_client_secret</key>
-          <string>${CLOUDFLARE_SECRET}</string>
-          <key>organization</key>
-          <string>lauhard</string>
-          <key>onboarding</key>
-          <false/>
-          </dict>" | sudo tee /var/lib/cloudflare-warp/mdm.xml > /dev/null
+          sudo tee /var/lib/cloudflare-warp/mdm.xml > /dev/null <<EOF
+          <dict>
+            <key>organisation</key>
+            <string>lauhard</string>
+            <key>auth_client_id</key>
+            <string>${{ secrets.CLOUDFLARE_SERVICE_TOKEN_ID }}</string>
+            <key>auth_client_secret</key>
+            <string>${{ secrets.CLOUDFLARE_SERVICE_TOKEN_SECRET }}</string>
+            <key>organization</key>
+            <string>lauhard</string>
+            <key>onboarding</key>
+            <false/>
+            <!-- Additional configuration parameters can be added here -->
+          </dict>
+          EOF
       - name: Check mdm.xml
         run: |
           sudo cat /var/lib/cloudflare-warp/mdm.xml
