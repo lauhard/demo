@@ -46,16 +46,14 @@ jobs:
           EOF
 
       - name: Check mdm.xml
-        run: |
-          sudo cat /var/lib/cloudflare-warp/mdm.xml
-      #connect warp to cf
+        run: sudo cat /var/lib/cloudflare-warp/mdm.xml
+
+      # Connect to Cloudflare Warp
       - name: Connect to Cloudflare
         run: |
+          set -e
           sudo warp-cli --accept-tos connect
-
-      #check status of warp client
-      - name: Check Cloudflare Warp Client Status
-        run: |
+          sleep 5
           sudo warp-cli --accept-tos status
 
       - name: Setup SSH Key
