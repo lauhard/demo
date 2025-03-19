@@ -46,7 +46,9 @@ jobs:
           EOF
 
       - name: Check mdm.xml
-        run: sudo cat /var/lib/cloudflare-warp/mdm.xml
+        run: |
+          sudo cat /var/lib/cloudflare-warp/mdm.xml
+          sudo ls -la /var/lib/cloudflare-warp
 
       # Connect to Cloudflare Warp
       - name: Connect to Cloudflare
