@@ -32,7 +32,7 @@ jobs:
             <key>organisation</key>
             <string>lauhard</string>
             <key>auth_client_id</key>
-            <string>${{ secrets.CLOUDFLARE_SERVICE_TOKEN_ID }}</string>
+            <string>${{ secrets.CLOUDFLARE_SERVICE_TOKEN_CLIENT_ID }}</string>
             <key>auth_client_secret</key>
             <string>${{ secrets.CLOUDFLARE_SERVICE_TOKEN_SECRET }}</string>
             <key>organization</key>
