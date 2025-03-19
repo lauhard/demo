@@ -45,6 +45,9 @@ jobs:
           </dict>
           EOF
 
+      - name: Check mdm.xml
+        run: |
+          sudo cat /var/lib/cloudflare-warp/mdm.xml
       #connect warp to cf
       - name: Connect to Cloudflare
         run: |
