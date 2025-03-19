@@ -31,9 +31,9 @@ jobs:
             <key>organisation</key>
             <string>lauhard</string>
             <key>auth_client_id</key>
-            <string>8127475c081dda84e13368ea3d4178b6.access</string>
+            <string>${{ CLOUDFLARE_SERVICE_TOKEN_ID }}</string>
             <key>auth_client_secret</key>
-            <string>77c95a445a49d2885ac6db54df624e5245e6fd54052a62c9f565772ec9962cc5</string>
+            <string>${{ CLOUDFLARE_SERVICE_TOKEN_SECRET }}</string>
             <key>organization</key>
             <string>lauhard</string>
             <key>onboarding</key>
