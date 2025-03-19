@@ -54,10 +54,6 @@ jobs:
         run: |
           sudo systemctl restart warp-svc
           sleep 1
-          sudo warp-cli --accept-tos registration new
-          sleep 1
-          sudo warp-cli --accept-tos mode warp+doh
-          sleep 1
           sudo warp-cli --accept-tos connect
           sleep 1
           sudo warp-cli --accept-tos status
