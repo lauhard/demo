@@ -53,6 +53,8 @@ jobs:
       # Connect to Cloudflare Warp
       - name: Connect to Cloudflare
         run: |
+          sudo warp-cli --accept-tos registration new
+          sudo warp-cli --accept-tos mode warp+doh
           set -e
           sudo warp-cli --accept-tos connect
           sleep 5
