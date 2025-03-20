@@ -23,9 +23,10 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ focal main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
           sudo apt-get update
           sudo apt-get update && sudo apt-get install -y --no-install-recommends cloudflare-warp
-      #add mdm.xml file to warp client directory
-      - name: Add mdm.xml file
 
+      #add mdm.xml file to warp client directory
+      #onb
+      - name: Add mdm.xml File
         run: |
           sudo tee /var/lib/cloudflare-warp/mdm.xml > /dev/null <<EOF
           <dict>
@@ -40,7 +41,7 @@ jobs:
           </dict>
           EOF
 
-      - name: Check mdm.xml
+      - name: Check mdm.xml File
         run: |
           sudo cat /var/lib/cloudflare-warp/mdm.xml
           sudo ls -la /var/lib/cloudflare-warp
