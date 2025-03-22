@@ -1,8 +1,8 @@
 name: Connect To Cloudflare Tunnel Server Through Cloudflare Warp Client
 on:
-    push:
+  push:
     branches:
-        - main
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
