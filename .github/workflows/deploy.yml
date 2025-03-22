@@ -64,16 +64,16 @@ jobs:
       - name: Test SSH Connection
         run: ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "echo 'SSH Verbindung erfolgreich'"
 
-      - name: Copy Al^ Necesseary Files
+      - name: Copy All Necesseary Files
         run: |
             scp -r \
             package.json \
             package-lock.json \
             Dockerfile \
             build \
-            ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }}:/home/${{ secrets.USERNAME }}:~/dev01
+            ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }}:/home/${{ secrets.USERNAME }}:/home/andreas/dev01
 
       - name: Deploy
         run: |
-            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd ~/dev01 && docker-compose --env-file=../cloudflare/cloudflare.env up -d --build"
+            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd /home/andreas/dev01 && docker-compose --env-file=../cloudflare/cloudflare.env up -d --build"
 
