@@ -66,7 +66,7 @@ jobs:
 
       - name: Copy All Necesseary Files
         run: |
-            ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "rm -rf ~/dev01/demo && mkdir -p ~/dev01/demo"
+            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "rm -rf ~/dev01/demo && mkdir -p ~/dev01/demo"
             scp -r \
             package.json \
             package-lock.json \
