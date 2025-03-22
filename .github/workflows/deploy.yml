@@ -1,8 +1,8 @@
 name: Connect To Cloudflare Tunnel Server Through Cloudflare Warp Client
 on:
-  push:
+    push:
     branches:
-      - main
+        - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -63,3 +63,17 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
       - name: Test SSH Connection
         run: ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "echo 'SSH Verbindung erfolgreich'"
+
+      - name: Copy Al^ Necesseary Files
+        run: |
+            scp -r \
+            package.json \
+            package-lock.json \
+            Dockerfile \
+            build \
+            ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }}:/home/${{ secrets.USERNAME }}:~/dev01
+
+      - name: Deploy
+        run: |
+            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd ~/dev01 && docker-compose --env-file=../cloudflare/cloudflare.env up -d --build"
+
