@@ -62,4 +62,4 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
       - name: Test SSH Connection
-        run: ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "echo 'SSH Verbindung erfolgreich'"
+        run: ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "echo 'SSH Verbindung erfolgreich'"
