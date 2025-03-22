@@ -76,5 +76,5 @@ jobs:
 
       - name: Deploy
         run: |
-            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd /home/andreas/dev01/demo && docker compose --env-file=../cloudflare/cloudflare.env up -d --build"
+            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd /home/andreas/dev01 && docker compose --env-file=../cloudflare/cloudflare.env up -d --build"
 
