@@ -66,14 +66,15 @@ jobs:
 
       - name: Copy All Necesseary Files
         run: |
+            ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} "rm -rf ~/dev01/demo && mkdir -p ~/dev01/demo"
             scp -r \
             package.json \
             package-lock.json \
             Dockerfile \
             build \
-            ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }}:~/dev01
+            ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }}:~/dev01/demo
 
       - name: Deploy
         run: |
-            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd /home/andreas/dev01 && docker-compose --env-file=../cloudflare/cloudflare.env up -d --build"
+            ssh ${{ secrets.USERNAME }}@${{ secrets.RASPBI_IP }} "cd /home/andreas/dev01/demo && docker compose --env-file=../cloudflare/cloudflare.env up -d --build"
 
